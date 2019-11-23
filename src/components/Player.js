@@ -8,6 +8,6 @@ export const Player = (props) => (
               onClick={() => props.removePlayer(props.id)}>x</button>{/*콜백에 파라미터를 온전히 사용하려면 함수로 한번 더 감싼다.*/}
       {props.name}
     </span>
-    <Counter/>
+    <Counter id={props.id} score={props.score} changeScore={props.changeScore}/>
   </div>
 );
