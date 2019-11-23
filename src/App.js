@@ -1,13 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
-const players = [
-  {id:1, name:'LDK'},
-  {id:2, name:'HKY'},
-  {id:3, name:'KIM'},
-  {id:4, name:'HONG'}
-];
 
 const Header = (props) => {
   return (
@@ -90,7 +82,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="scoreboard">
-        <Header title="My scoreboard" totalPlayers={10 + 1}/>
+        <Header title="Hky's scoreboard" totalPlayers={10 + 1}/>
         {
           this.state.players.map((player) => (<Player name={player.name} key={player.id} id={player.id}
                                                       removePlayer={this.handleRemovePlayer}/>)) //2. 콜백 자체를 props로 자식에 넘긴다.
