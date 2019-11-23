@@ -38,8 +38,18 @@ class App extends React.Component {
     });
   }
 
-  handleChangeScore(id, delta) {
+  handleChangeScore = (id, delta) => {
     console.log('handleChangeScore: ', id, ' ', delta)
+    this.setState(prevState => {
+      //항상 새로운 배열 return하므로, 배열에 사용하는 함수가 immutable하지 않아도 된다.
+      const players = [...prevState.players]
+      players.forEach(player => {
+        if(player.id === id) {
+          player.score += delta
+        }
+      })
+      return {players}
+    })
   }
 }
 
