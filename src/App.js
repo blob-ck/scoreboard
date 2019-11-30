@@ -2,6 +2,9 @@ import React from 'react';
 import './App.css';
 import {Header} from './components/Header';
 import {Player} from './components/Player';
+import {AddPlayerForm} from './components/AddPlayerForm';
+
+let maxId = 0;
 
 class App extends React.Component {
   state = {
@@ -25,6 +28,7 @@ class App extends React.Component {
                     removePlayer={this.handleRemovePlayer}/>
           ))
         }
+      <AddPlayerForm addPlayer={this.handleAddPlayer}/>
       </div>
     )
   };
@@ -50,6 +54,20 @@ class App extends React.Component {
       });
       return {players}
     })
+  };
+
+  handleAddPlayer = (name) => {
+    console.log('Handle Add player');
+    console.log(name);
+    this.setState(prevState => {
+      const players = [...prevState.players];
+      maxId = prevState.players.reduce((max, player)=>{
+        return max > player.id ? max : player.id;
+      }, 0);
+      console.log(maxId);
+      players.push({id:++maxId, name:name, score:0});
+      return {players};
+    });
   }
 }
 
