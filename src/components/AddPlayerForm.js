@@ -1,9 +1,8 @@
 import React from 'react'
+import {connect} from "react-redux";
+import {addPlayer} from "../redux/actions";
 
-export class AddPlayerForm extends React.Component {
-  state = {
-    value: ''
-  }
+class AddPlayerForm extends React.Component {
 
   handleValueChange = (e) => {
     this.setState({value: e.target.value});
@@ -11,36 +10,28 @@ export class AddPlayerForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // const playerNode = document.getElementById("player");
-    // console.log("badInput : ", playerNode.validity.badInput);
-    // console.log("customError : ", playerNode.validity.customError);
-    // console.log("patternMismatch : ", playerNode.validity.patternMismatch);
-    // console.log("rangeOverflow : ", playerNode.validity.rangeOverflow);
-    // console.log("rangeUnderflow : ", playerNode.validity.rangeUnderflow);
-    // console.log("stepMismatch : ", playerNode.validity.stepMismatch);
-    // console.log("tooLong : ", playerNode.validity.tooLong);
-    // console.log("tooShort : ", playerNode.validity.tooShort);
-    // console.log("typeMismatch : ", playerNode.validity.typeMismatch);
-    // console.log("valueMissing : ", playerNode.validity.valueMissing);
-    // console.log("valid : ", playerNode.validity.valid);
-    let name = this.state.value.replace(/(^\s*)|(\s*$)/, '');
-    if(!name.replace(/\s/gi, "")) return alert("공백은 입력할 수 없습니다.");
-    this.props.addPlayer(name.toUpperCase());
-    this.setState({value: ''});
+    const playNode = document.getElementById("player");
+    if(!playNode.validity.valid) {
+      return;
+    }
+    this.props.addPlayer(playNode.value.toUpperCase());
+    // this.setState({value: ''});
   }
 
   render() {
     return (
-      <form action="" className="form" onSubmit={this.handleSubmit}>
-        <input id="player" type="text" className="input"
-               minLength={5}
-               maxLength={10}
-               value={this.state.value}
-               placeholder={"enter a player's name"}
-               onChange={this.handleValueChange}
-        />
+      <form action="" className="form" onSubmit={this.handleSubmit} noValidate>
+        <input id="player" type="text" className="input" required
+               placeholder={"enter a player's name"}/>
         <input type="submit" className="input" value={"Add Player"}/>
       </form>
     );
   }
 }
+
+
+const mapActionToProps = (dispatch) => ({
+  addPlayer: (name) => dispatch(addPlayer(name))
+});
+
+export default connect(null, mapActionToProps)(AddPlayerForm);
