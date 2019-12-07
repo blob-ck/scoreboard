@@ -1,49 +1,29 @@
-import {Counter} from "./Counter";
+import Counter from "./Counter";
 import React from "react";
+import {removePlayer} from "../redux/actions";
+import {connect} from "react-redux";
 
 //PureComponent ?
 export class Player extends React.PureComponent {
   render() {
-  const {id, name, score, removePlayer, changeScore} = this.props;
+  const {id, name, score, removePlayer} = this.props;
   console.log(name, ' rendered');
     return (
       <div className="player">
       <span className="player-name">
         <button className='remove-player'
                 onClick={() => removePlayer(id)}>x</button>
+        {this.props.children}
         {name}
       </span>
-        <Counter id={id} score={score} changeScore={changeScore}/>
+        <Counter id={id} score={score}/>
       </div>
     )
   }
-
-/*
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log(nextProps);
-    if(nextProps.score !== this.props.score) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-*/
 }
 
+const mapActionToProps = (dispatch) => ({
+  removePlayer: (id) => dispatch(removePlayer(id))
+});
 
-
-/*
-export const Player = (props) => {
-  console.log(props.name, ' rendered');
-  return (
-    <div className="player">
-      <span className="player-name">
-        <button className='remove-player'
-                onClick={() => props.removePlayer(props.id)}>x</button>
-        {/!*콜백에 파라미터를 온전히 사용하려면 함수로 한번 더 감싼다.*!/}
-        {props.name}
-      </span>
-      <Counter id={props.id} score={props.score} changeScore={props.changeScore}/>
-    </div>
-  );
-}*/
+export default connect(null, mapActionToProps)(Player);

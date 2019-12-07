@@ -2,11 +2,7 @@ import React from 'react'
 import {connect} from "react-redux";
 import {addPlayer} from "../redux/actions";
 
-class AddPlayerForm extends React.Component {
-
-  handleValueChange = (e) => {
-    this.setState({value: e.target.value});
-  }
+export class AddPlayerForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +11,7 @@ class AddPlayerForm extends React.Component {
       return;
     }
     this.props.addPlayer(playNode.value.toUpperCase());
-    // this.setState({value: ''});
+    playNode.value = '';
   }
 
   render() {

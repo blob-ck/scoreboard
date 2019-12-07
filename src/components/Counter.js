@@ -1,4 +1,6 @@
 import React from "react";
+import {connect} from "react-redux";
+import {changeScore} from "../redux/actions";
 
 export class Counter extends React.Component { //React.Component 객체에 props가 내장되어있다. 사용할 때 this.props로 사용할 것
   render() {
@@ -13,3 +15,9 @@ export class Counter extends React.Component { //React.Component 객체에 props
     )
   }
 }
+
+const mapActionToProps = (dispatch) => ({
+  changeScore: (id, delta) => dispatch(changeScore(id, delta))
+});
+
+export default connect(null, mapActionToProps)(Counter);
