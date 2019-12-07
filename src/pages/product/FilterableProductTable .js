@@ -13,10 +13,12 @@ const products = [
 
 const FilterableProductTable = (props) => {
   const [keyword, setKeyword] = useState('');
+  const [stockChecked, setStockChecked] = useState(false);
+
   return (
     <div className="scoreboard">
-      <SearchBar keyword={keyword} setKeyword={setKeyword}></SearchBar>
-      <ProductTable product={products.filter(item => item.name.indexOf(keyword) >= 0)}></ProductTable>
+      <SearchBar keyword={keyword} setKeyword={setKeyword} stockChecked={stockChecked} setStockChecked={setStockChecked}/>
+      <ProductTable product={products.filter(item => item.name.indexOf(keyword) >= 0).filter(item => stockChecked ? item.stocked : true)}/>
     </div>
   )
 }

@@ -4,10 +4,6 @@ import classNames from 'classnames'
 
 export class CustomPlayer extends React.Component {
   render() {
-    let dynamicClass = 'svg';
-    if(this.props.isHighScore) {
-      dynamicClass += " is-high-score";
-    }
     return (
       <Player {...this.props}>
         <svg viewBox="0 0 44 35" className={classNames('svg', {'is-high-score': this.props.isHighScore})}>
