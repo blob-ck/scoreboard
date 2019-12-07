@@ -1,42 +1,42 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
-export default class StopWatch extends React.Component {
-  tickRef;
-  state = {
-    isRunning: false,
-    timer: 0
-  }
+export function StopWatch() {
+  const [isRunning, setIsRunning] = useState(false);
+  const [timer, setTimer] = useState(0);
 
-  tick() {
-    if(this.state.isRunning) {
-      console.error("setInterval 실행중!");
-      this.setState(prevState => ({timer: prevState.timer + 1}));
+  //useInterval == useEffect + setInterval
+  useInterval(() => {
+    if(isRunning) {
+      setTimer(timer + 1);
     }
-  }
+  }, 1000);
 
-  //DOM이 렌더링된 이후 실행 like document.ready()
-  //네트워크로 데이터 fetch 하거나 3rd 라이브러리 초기화 할때 사용
-  componentDidMount() {
-    console.log("componentDidMount");
-    this.tickRef = setInterval(this.tick.bind(this), 1000);
-  }
+  return (
+    <div className="stopwatch">
+      <h2>StopWath</h2>
+      <span className="stopwatch-time">{timer}</span>
+      <button onClick={() => setIsRunning(!isRunning)}>{isRunning ? "Stop" : "Start"}</button>
+      <button onClick={()=> setTimer(0)}>Reset</button>
+    </div>
+  );
+}
 
-  componentWillUnmount() {
-    clearInterval(this.tickRef);
-  }
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
 
-  handleStopWatch() {
-    this.setState(prevState => ({isRunning: !prevState.isRunning}));
-  }
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
 
-  render() {
-    return (
-      <div className="stopwatch">
-        <h2>StopWath</h2>
-        <span className="stopwatch-time">{this.state.timer}</span>
-        <button onClick={this.handleStopWatch.bind(this)}>{this.state.isRunning ? "Stop" : "Start"}</button>
-        <button onClick={()=>this.setState({timer: 0})}>Reset</button>
-      </div>
-    );
-  }
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
 }

@@ -10,14 +10,14 @@ const playerInitialState = {
   ]
 }
 export const playerReducer = (state = playerInitialState, action) => {
-  // eslint-disable-next-line default-case
   let players;
+  // eslint-disable-next-line default-case
   switch (action.type) {
     case ADD_PLAYER:
       return { //Deep Copy and return new Object by spread operator
         ...state,
         players: [...state.players, {id: ++maxId, name: action.name, score: 0}]
-      };
+      }
     case CHANGE_SCORE:
       players = [...state.players];
       players.forEach(player => {

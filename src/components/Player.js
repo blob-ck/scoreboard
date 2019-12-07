@@ -6,16 +6,15 @@ import {connect} from "react-redux";
 //PureComponent ?
 export class Player extends React.PureComponent {
   render() {
-  const {id, name, score, removePlayer} = this.props;
+  const {removePlayer, id, name, score} = this.props;
   console.log(name, ' rendered');
     return (
       <div className="player">
-      <span className="player-name">
-        <button className='remove-player'
-                onClick={() => removePlayer(id)}>x</button>
-        {this.props.children}
-        {name}
-      </span>
+		    <span className="player-name">
+			  <button className="remove-player" onClick={() => removePlayer(id)}> x </button>
+          {this.props.children}
+          {name}
+		    </span>
         <Counter id={id} score={score}/>
       </div>
     )
